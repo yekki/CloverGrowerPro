@@ -1,0 +1,17 @@
+# Files to always ignore
+.DS_Store
+*.[oa]
+*~
+
+# Local configuration file
+CloverGrowerPro.conf
+
+# Auto generated files
+/.last_check
+/Files/.last_built
+
+# Directories that we doesn't need to track
+builtPKG/
+edk2/
+src/
+toolchain/

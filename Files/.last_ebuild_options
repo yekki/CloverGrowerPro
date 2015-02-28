@@ -1,0 +1,1 @@
+./ebuild.sh -gcc49 -release -D USE_APPLE_HFSPLUS_DRIVER x64
