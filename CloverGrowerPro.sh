@@ -3,6 +3,8 @@
 declare -r CloverGrowerVersion="5.0"
 declare -r self="${0##*/}"
 
+PROXY="--config-option servers:global:http-proxy-host=cn-proxy.cn.oracle.com --config-option servers:global:http-proxy-port=80"
+
 # Reset locales (important when grepping strings from output commands)
 export LC_ALL=C
 
@@ -122,7 +124,8 @@ function checkConfig() {
         if [[ -n "$login" ]];then
             CLOVERSVNURL="svn+ssh://$login@svn.code.sf.net/p/cloverefiboot/code"
         else
-            CLOVERSVNURL='svn://svn.code.sf.net/p/cloverefiboot/code'
+            #CLOVERSVNURL='svn://svn.code.sf.net/p/cloverefiboot/code'
+	    CLOVERSVNURL='https://svn.code.sf.net/p/cloverefiboot/code'
         fi
         storeConfig 'CLOVERSVNURL' "$CLOVERSVNURL"
         echo
@@ -458,7 +461,7 @@ function installToolchain() {
     else
         # Get the latest version of buildgcc.sh from clover
         echob "Checking out last version of buildgcc.sh from clover repository..."
-        svn export --force "$CLOVERSVNURL"/buildgcc-4.9.sh "$srcDIR"/buildgcc.sh >/dev/null
+        svn export $PROXY --force "$CLOVERSVNURL"/buildgcc-4.9.sh "$srcDIR"/buildgcc.sh >/dev/null
     fi
 
     echob "Starting CloverGrower Compile Tools process..."
@@ -475,8 +478,8 @@ function installGettext() {
     cd "${WORKDIR}"/Files
 
     # Get the latest version of buildgettext.sh from clover
-    echob "Checking out last version of buildgettext.sh from clover..."
-    svn export --force "$CLOVERSVNURL"/buildgettext.sh "$srcDIR"/buildgettext.sh >/dev/null
+    echo "Checking out last version of buildgettext.sh from clover..."
+    svn export $PROXY --force "$CLOVERSVNURL"/buildgettext.sh "$srcDIR"/buildgettext.sh >/dev/null
 
     echob "Starting CloverGrower Compile GetText process..."
     date
@@ -492,7 +495,7 @@ function installNasm() {
 
     # Get the latest version of buildnasl.sh from clover
     echob "Checking out last version of buildnasm.sh from clover..."
-    svn export --force "$CLOVERSVNURL"/buildnasm.sh "$srcDIR"/buildnasm.sh >/dev/null
+    svn export $PROXY --force "$CLOVERSVNURL"/buildnasm.sh "$srcDIR"/buildnasm.sh >/dev/null
 
     echob "Starting CloverGrower Compile Nasm process..."
     date
